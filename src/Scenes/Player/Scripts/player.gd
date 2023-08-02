@@ -28,6 +28,7 @@ func _input(event):
 
 func fire():
 	var projectile = projectile_scene.instantiate()
+	projectile.transform = global_transform
 	projectile_fired.emit(projectile)
 
 func move_ship_with_direction_keys():

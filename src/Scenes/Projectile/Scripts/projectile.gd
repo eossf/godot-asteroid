@@ -2,7 +2,7 @@ extends Node2D
 
 @export var speed = 400.0
 
-var direction := Vector2.RIGHT
+@onready var direction := Vector2.RIGHT.rotated(rotation)
 
 func _physics_process(delta):
 	var velocity = direction * speed * delta

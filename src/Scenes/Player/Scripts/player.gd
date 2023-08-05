@@ -1,4 +1,5 @@
 extends CharacterBody2D
+class_name Player
 
 @export var max_speed : float = 200.0
 var speed : float = 0.0
@@ -11,13 +12,13 @@ var last_direction := Vector2.ZERO
 signal projectile_fired(projectile)
 
 func _ready():
-	pass
+	print("Player ready")
 
 # every frame call this func
 func _physics_process(delta):
 	move_ship_with_direction_keys()
 	rotate_ship_with_mouse()
-	
+
 func _input(event):
 	direction = Input.get_vector("move_left", "move_right", "move_up", "move_down")
 	if direction != Vector2.ZERO:
@@ -46,3 +47,6 @@ func rotate_ship_with_mouse():
 	var mouse_pos = get_global_mouse_position()
 	var angle = global_position.angle_to_point(mouse_pos)
 	rotation = lerp_angle(rotation, angle, rotation_acceleration_factor)
+
+func destroy():
+	print("Destroy")

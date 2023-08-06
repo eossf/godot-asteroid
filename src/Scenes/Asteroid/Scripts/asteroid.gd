@@ -11,8 +11,9 @@ enum SIZE{
 
 @export var size:SIZE:
 	set(value):
-		size=value
-		size_changed.emit()
+		if value != size:
+			size = value
+			size_changed.emit()
 @export var speed = 200.0
 @export var torque = 50.0
 @export var asteroids_size_array:Array[AsteroidsSize]
@@ -20,10 +21,12 @@ enum SIZE{
 @onready var collision_shape_2d = $CollisionShape2D
 
 signal size_changed
+signal destroyed
 
 func _ready() -> void:
 	if Engine.is_editor_hint():
 		set_physics_process(false)
+	_on_size_changed() # in case of delayed creation
 
 func _physics_process(delta):
 	var velocity = delta * speed * direction
@@ -36,7 +39,12 @@ func _on_body_entered(body: Node2D):
 
 func _on_size_changed():
 	assert(size in range(asteroids_size_array.size()), "Index of asteroid array not valid: must be between 0-" + str(asteroids_size_array.size()))
-	var shape_instance = asteroids_size_array[size].shape
-	var texture_instance = asteroids_size_array[size].texture
-	collision_shape_2d.shape = shape_instance
-	sprite_2d.texture = texture_instance
+	if collision_shape_2d != null and sprite_2d != null:
+		var shape_instance = asteroids_size_array[size].shape
+		var texture_instance = asteroids_size_array[size].texture
+		collision_shape_2d.shape = shape_instance
+		sprite_2d.texture = texture_instance
+
+func destroy():
+	destroyed.emit()
+	queue_free()

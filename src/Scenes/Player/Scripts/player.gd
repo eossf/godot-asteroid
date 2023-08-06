@@ -10,6 +10,7 @@ var last_direction := Vector2.ZERO
 @export var projectile_scene : PackedScene
 
 signal projectile_fired(projectile)
+signal player_destroyed
 
 func _ready():
 	print("Player ready")
@@ -49,4 +50,5 @@ func rotate_ship_with_mouse():
 	rotation = lerp_angle(rotation, angle, rotation_acceleration_factor)
 
 func destroy():
+	player_destroyed.emit()
 	queue_free()

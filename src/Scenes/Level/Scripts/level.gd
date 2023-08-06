@@ -27,11 +27,12 @@ func spawm_asteroid() -> void:
 	var asteroid = asteroid_scene.instantiate()
 	var direction_to_center = point.direction_to(screen_center)
 	var dir_rotation = randfn(0.0, deg_to_rad(asteroid_direction_variance))
-	asteroid.direction = direction_to_center.rotated(dir_rotation)
-	asteroid.position = point_asteroid
-	
+	var random_size = randi_range(0, Asteroid.SIZE.size() - 1)
 	# add to node conaining all asteroids
 	asteroids.add_child(asteroid)
+	asteroid.direction = direction_to_center.rotated(dir_rotation)
+	asteroid.position = point_asteroid
+	asteroid.size = random_size
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_accept"):

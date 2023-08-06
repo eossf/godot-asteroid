@@ -1,20 +1,48 @@
-[gd_scene load_steps=4 format=3 uid="uid://dyfc4aloyx0y3"]
+[gd_scene load_steps=12 format=3 uid="uid://dyfc4aloyx0y3"]
 
 [ext_resource type="Script" path="res://Scenes/Asteroid/Scripts/asteroid.gd" id="1_41ix2"]
 [ext_resource type="Texture2D" uid="uid://cwej56awpgq88" path="res://Scenes/Asteroid/Sprites/AsteroidBig.png" id="1_hq0fk"]
+[ext_resource type="Script" path="res://Resources/AsteroidsSize/AsteroidsSize.gd" id="2_8yfp7"]
+[ext_resource type="Texture2D" uid="uid://deqngtceoobro" path="res://Scenes/Asteroid/Sprites/AsteroidSmall.png" id="3_odye3"]
+[ext_resource type="Texture2D" uid="uid://c38e6i5557cwy" path="res://Scenes/Asteroid/Sprites/AsteroidMedium.png" id="4_g7kqo"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_gev0w"]
-radius = 13.0
+[sub_resource type="CircleShape2D" id="CircleShape2D_26hm6"]
+radius = 3.0
+
+[sub_resource type="Resource" id="Resource_auohh"]
+script = ExtResource("2_8yfp7")
+texture = ExtResource("3_odye3")
+shape = SubResource("CircleShape2D_26hm6")
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_usth1"]
+radius = 7.0
+
+[sub_resource type="Resource" id="Resource_toxal"]
+script = ExtResource("2_8yfp7")
+texture = ExtResource("4_g7kqo")
+shape = SubResource("CircleShape2D_usth1")
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_o1o85"]
+radius = 15.0
+
+[sub_resource type="Resource" id="Resource_4bl81"]
+script = ExtResource("2_8yfp7")
+texture = ExtResource("1_hq0fk")
+shape = SubResource("CircleShape2D_o1o85")
 
 [node name="Asteroid" type="Area2D"]
 collision_layer = 2
 script = ExtResource("1_41ix2")
+size = 2
+asteroids_size_array = Array[ExtResource("2_8yfp7")]([SubResource("Resource_auohh"), SubResource("Resource_toxal"), SubResource("Resource_4bl81")])
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+unique_name_in_owner = true
 texture = ExtResource("1_hq0fk")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 1)
-shape = SubResource("CircleShape2D_gev0w")
+unique_name_in_owner = true
+shape = SubResource("CircleShape2D_o1o85")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="size_changed" from="." to="." method="_on_size_changed"]

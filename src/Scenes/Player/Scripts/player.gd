@@ -49,4 +49,4 @@ func rotate_ship_with_mouse():
 	rotation = lerp_angle(rotation, angle, rotation_acceleration_factor)
 
 func destroy():
-	print("Destroy")
+	queue_free()
